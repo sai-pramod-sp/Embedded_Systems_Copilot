@@ -4,12 +4,13 @@
 
 ### To run the project, clone the repository and type the following commands in the command prompt:
 
+1. **Create an AWS Account and Activate Bedrock**
 1. **Clone the repository**:
    ```bash
    git clone 
 2. **Create a new conda environment**:
    ```bash
-   conda create -n web python=3.7
+   conda create -n web python=3.10
 3. **Activate the Account**:
    ```bash
    conda activate web
