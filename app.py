@@ -1,11 +1,9 @@
-
 import streamlit as st
 import torch
 from langchain.prompts import PromptTemplate
 from transformers import AutoTokenizer, AutoModelForCausalLM
+import llama3
 
-
-## Function To get response from LLAma 2 model
 
 B_INST, E_INST = "[INST]", "[/INST]"
 B_SYS, E_SYS = "<>\n", "\n<>\n\n"
@@ -13,34 +11,53 @@ B_SYS, E_SYS = "<>\n", "\n<>\n\n"
 def getLLamaresponse(input_text,language,blog_style):
 
     instruction = input_text
-    model_name = "Meta-Llama-3.1-8B-Instruct"
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name)
 
-    # Prompt Template
-    CUSTOM_SYSTEM_PROMPT = """
-        Generate a {language} code sample for an embedded system. The code should perform the following task: {task_description}.
-               """
-    SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
-    template=B_INST+SYSTEM_PROMPT+instruction+E_INST
+    if(blog_style == 'To Generate the Code'):
+        
+        CUSTOM_SYSTEM_PROMPT = """
+                Generate a {language} code sample for an embedded system. 
+                The code should perform the following task: {task_description} without having any memory leaks, less time complexity,
+                space complexity.
+                               """
+        SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
+        template=B_INST+SYSTEM_PROMPT+instruction+E_INST
     
-    prompt=PromptTemplate(input_variables=["language", "task_description"], template=template)
+        prompt=PromptTemplate(input_variables=["language", "task_description"], template=template)
+        formatted_prompt = prompt.format(language=language, task_description=input_text)
 
-    # Initializing the Chain
-    # LLM_Chain=prompt.format(llm=model, prompt=prompt)
-    formatted_prompt = prompt.format(language=language, task_description=input_text)
+    elif (blog_style == 'Optimize the Code'):
 
-    # inputs = tokenizer(input_text, return_tensors="pt")
-    # outputs = model.generate(**inputs)
-
-    # response = (tokenizer.decode(outputs[0], skip_special_tokens=True))
-    inputs = tokenizer(formatted_prompt, return_tensors="pt")
-    outputs = model.generate(**inputs, max_length=500, num_return_sequences=1)
-
-    # Decode the output tokens
-    predicted_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        CUSTOM_SYSTEM_PROMPT = """
+            You are an expert in optimizing code for performance, memory usage, and readability. 
+            You will receive a piece of code and your task is to provide an optimized version of it. 
+            Ensure that the optimized code maintains the same functionality as the original.
+            Here is the code that needs optimization in {language} language:
+            {task_description}
+            Please provide an optimized version of the code, focusing on improving performance, 
+            reducing memory usage, and enhancing readability
+                               """
+        
+        SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
+        template=B_INST+SYSTEM_PROMPT+instruction+E_INST
     
-    return predicted_text
+        prompt=PromptTemplate(input_variables=["language", "task_description"], template=template)
+        formatted_prompt = prompt.format(language=language, task_description=input_text)
+
+    else:
+
+        CUSTOM_SYSTEM_PROMPT = """
+                Generate a {language} code sample for an embedded system. 
+                The code should perform the following task: {task_description}.
+                               """
+        SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
+        template=B_INST+SYSTEM_PROMPT+instruction+E_INST
+    
+        prompt=PromptTemplate(input_variables=["language", "task_description"], template=template)
+        formatted_prompt = prompt.format(language=language, task_description=input_text)
+    
+    
+    return_output = llama3.code_generate(formatted_prompt)
+    return return_output
 
 st.set_page_config(page_title="Embedded Systems",
                     page_icon='🤖',
