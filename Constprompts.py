@@ -23,3 +23,10 @@ Test_Case_Generation = """
                 Generate a GoogleMock or CppUTest test cases for the {language} provided with the {task_description}
 
                 """
+
+Text_Generation = """
+                Please provide a detailed explanation about {task_description} in the context of embedded systems. 
+                Ensure the response is informative and does not include any code. Focus on explaining the concepts, 
+                applications, and significance of the topic.
+
+                  """
