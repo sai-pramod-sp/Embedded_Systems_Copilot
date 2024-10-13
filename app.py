@@ -9,7 +9,7 @@ import string
 B_INST, E_INST = "[INST]", "[/INST]"
 B_SYS, E_SYS = "<>\n", "\n<>\n\n"
 
-strings_to_replace = ["[INST]", "[/INST]", "<>\n", "\n<>\n\n", "<INST>"]
+strings_to_replace = ["[INST]", "[/INST]", "<>\n", "\n<>\n\n", "<INST>", "INST>>", "<<INST"]
 
 def remove_punc(text):
     exclude = string.punctuation
@@ -42,7 +42,7 @@ def getLLamaresponse(input_text,language,blog_style):
         prompt=PromptTemplate(input_variables=["language", "task_description"], template=template)
         formatted_prompt = prompt.format(language=language, task_description=input_text)
 
-    elif (blog_style == 'Generate the Suggestion'):
+    elif (blog_style == 'Generate the Text'):
 
         CUSTOM_SYSTEM_PROMPT = Constprompts.Text_Generation
         SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
@@ -51,7 +51,7 @@ def getLLamaresponse(input_text,language,blog_style):
         prompt=PromptTemplate(input_variables=["task_description"], template=template)
         formatted_prompt = prompt.format(task_description=input_text)
 
-    else:
+    elif (blog_style == 'Testing the Code'):
 
         CUSTOM_SYSTEM_PROMPT = Constprompts.Test_Case_Generation
         SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
@@ -85,7 +85,7 @@ col1, col2 = st.columns([5, 5])
 with col1:
     language = st.selectbox('Select Language', ('C', 'C++', 'None'), index=0, help="Choose the programming language")
 with col2:
-    blog_style = st.selectbox('Help assistant for', ('To Generate the Code', 'Optimize the Code', 'Testing the Code', 'Generate the Suggestions'), index=0, help="Select the type of assistance you need")
+    blog_style = st.selectbox('Help assistant for', ('To Generate the Code', 'Optimize the Code', 'Testing the Code', 'Generate the Text'), index=0, help="Select the type of assistance you need")
 
 # Button to generate response with loading indicator
 submit = st.button("Generate")
