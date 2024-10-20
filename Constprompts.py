@@ -20,7 +20,7 @@ Test_Case_Generation = """
                 You are an expert in {language} unit testing. Your task is to generate comprehensive test cases using Google Mock or 
                 CppUTest for the provided {task_description} code. The test cases should cover various aspects such as functionality, edge cases, 
                 and error handling. Ensure that the test cases are detailed and include the following:
-                Generate a GoogleMock or CppUTest test cases for the {language} provided with the {task_description}
+                Generate a GoogleMock or CppUTest test cases for the {language} language provided with the {task_description}
 
                 """
 
@@ -30,3 +30,12 @@ Text_Generation = """
                 applications, and significance of the topic.
 
                   """
+
+Pipeline_Test_Case_Generation = """
+                                Generate the code for the following task in the context of embedded systems: {task_description}. 
+                                The outcome should contain all the requirements, constraints, functionalities with memory management, space management 
+                                in the form of Code. Ensure the code is optimized for performance and memory usage in {language} language. 
+                                The system is built to Prioritize generating the core code that accomplishes the task first. If the user asks for test cases, 
+                                provide them only after completing the task implementation and ensuring the embedded system's core functionality
+
+                                """

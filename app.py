@@ -1,68 +1,5 @@
 import streamlit as st
-import torch
-from langchain.prompts import PromptTemplate
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import llama3
-import Constprompts
-import string
-
-B_INST, E_INST = "[INST]", "[/INST]"
-B_SYS, E_SYS = "<>\n", "\n<>\n\n"
-
-strings_to_replace = ["[INST]", "[/INST]", "<>\n", "\n<>\n\n", "<INST>", "INST>>", "<<INST"]
-
-def remove_punc(text):
-    exclude = string.punctuation
-    return text.translate(str.maketrans("", "", exclude))
-
-def replace_strings_with_space(text, strings_to_replace):
-    for string in strings_to_replace:
-        text = text.replace(string, ' ')
-    return text
-
-def getLLamaresponse(input_text,language,blog_style):
-
-    instruction = input_text
-
-    if(blog_style == 'To Generate the Code'):
-        
-        CUSTOM_SYSTEM_PROMPT = Constprompts.Generation
-        SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
-        template=B_INST+SYSTEM_PROMPT+instruction+E_INST
-    
-        prompt=PromptTemplate(input_variables=["language", "task_description"], template=template)
-        formatted_prompt = prompt.format(language=language, task_description=input_text)
-
-    elif (blog_style == 'Optimize the Code'):
-
-        CUSTOM_SYSTEM_PROMPT = Constprompts.Optimization
-        SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
-        template=B_INST+SYSTEM_PROMPT+instruction+E_INST
-    
-        prompt=PromptTemplate(input_variables=["language", "task_description"], template=template)
-        formatted_prompt = prompt.format(language=language, task_description=input_text)
-
-    elif (blog_style == 'Generate the Text'):
-
-        CUSTOM_SYSTEM_PROMPT = Constprompts.Text_Generation
-        SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
-        template=B_INST+SYSTEM_PROMPT+instruction+E_INST
-
-        prompt=PromptTemplate(input_variables=["task_description"], template=template)
-        formatted_prompt = prompt.format(task_description=input_text)
-
-    elif (blog_style == 'Testing the Code'):
-
-        CUSTOM_SYSTEM_PROMPT = Constprompts.Test_Case_Generation
-        SYSTEM_PROMPT=B_SYS+CUSTOM_SYSTEM_PROMPT+E_SYS
-        template=B_INST+SYSTEM_PROMPT+instruction+E_INST
-    
-        prompt=PromptTemplate(input_variables=["language", "task_description"], template=template)
-        formatted_prompt = prompt.format(language=language, task_description=input_text)
-    
-
-    return_output = llama3.code_generate(formatted_prompt)
-    return return_output
+import utils as util
 
 # Set page configuration
 st.set_page_config(
@@ -91,8 +28,8 @@ with col2:
 submit = st.button("Generate")
 if submit:
     with st.spinner('Processing...'):
-        output = getLLamaresponse(input_text, language, blog_style)
-        cleaned_output = replace_strings_with_space(output, strings_to_replace)
+        output = util.getLLamaresponse(input_text, language, blog_style)
+        cleaned_output = util.replace_strings_with_space(output)
         st.write(cleaned_output)
 
 # Feedback section
