@@ -31,11 +31,32 @@ Text_Generation = """
 
                   """
 
-Pipeline_Test_Case_Generation = """
-                                Generate the code for the following task in the context of embedded systems: {task_description}. 
-                                The outcome should contain all the requirements, constraints, functionalities with memory management, space management 
-                                in the form of Code. Ensure the code is optimized for performance and memory usage in {language} language. 
-                                The system is built to Prioritize generating the core code that accomplishes the task first. If the user asks for test cases, 
-                                provide them only after completing the task implementation and ensuring the embedded system's core functionality
+Pipeline_Code_Generation = """
+                          Your are expert in Writing the code for the following constraints. 
+                          Focus on implementing the core functionality first, ensuring the code is optimized for memory efficiency, 
+                          space constraints, and free from memory leaks. The code should prioritize functionality over test cases. 
+                          Use best practices for embedded systems to manage memory and resources effectively. 
+                          Generate the Code for the {task_description} in {language} eventhough user asks for the test_cases. 
 
-                                """
+                          """
+
+Pipeline_Test_Case_Generation = """
+                               
+                              Generate comprehensive test cases for the embedded systems code that performs the following task:
+                              {code}. The test cases should thoroughly verify all aspects of functionality, 
+                              including normal operation, edge cases, and error handling. Additionally, 
+                              ensure tests check for memory efficiency, confirm no memory leaks, 
+                              and validate the code’s behavior under space-constrained conditions. 
+                              Design the test cases to simulate real-world conditions and ensure the system’s reliability and stability.
+
+                               """
+
+Pipeline_Test_Case_Generation1 = """
+                               
+                              You are an expert in unit testing. Your task is to generate comprehensive test cases using Google Mock or 
+                              CppUTest for the provided code. The test cases should cover various aspects such as functionality, edge cases, 
+                              and error handling. Ensure that the test cases are detailed and include the following:
+                              Generate a GoogleMock or CppUTest test cases for the {code}
+
+
+                               """

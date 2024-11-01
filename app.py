@@ -28,9 +28,9 @@ with col2:
 submit = st.button("Generate")
 if submit:
     with st.spinner('Processing...'):
-        output = util.getLLamaresponse(input_text, language, blog_style)
-        cleaned_output = util.replace_strings_with_space(output)
-        st.write(cleaned_output)
+        output = util.getCode(input_text, language)
+        #cleaned_output = util.replace_strings_with_space(output)
+        st.write(output)
 
 # Feedback section
 st.sidebar.header("Feedback")
