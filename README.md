@@ -22,3 +22,23 @@
 6. **To run the app**
    ```bash
    streamlit run app.py
+7. **After creating EC2 Instance run the following commands to make your instance upto date**
+   ``bash
+   sudo apt update
+   sudo apt-get update
+   sudo apt upgrade -y
+   sudo apt install git curl unzip tar make sudo vim wget -y
+   git clone "Your-repository"
+   sudo apt install python3-pip
+8. **For Creating new environment**
+   ``bash
+   sudo apt install python3-venv
+   python3 -m venv .venv
+   source .venv/bin/activate
+9. **For installing requirements.txt**
+   ``bash
+   pip3 install -r requirements.txt
+   #Temporary running
+   python3 -m streamlit run app.py
+   #Permanent running
+   nohup python3 -m streamlit run app.py
