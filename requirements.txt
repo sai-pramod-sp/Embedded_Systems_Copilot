@@ -6,3 +6,4 @@ python-box
 streamlit
 boto3
 awscli
+python-dotenv

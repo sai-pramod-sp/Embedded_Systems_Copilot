@@ -12,7 +12,7 @@ def code_generate(prompt_data):
     }
 
     body = json.dumps(payload)
-    model_id = "meta.llama3-8b-instruct-v1:0"
+    model_id = "meta.llama3-70b-instruct-v1:0"
     response = bedrock.invoke_model(
         body = body,
         modelId = model_id,
